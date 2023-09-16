@@ -1,0 +1,32 @@
+name: Render
+
+on:
+    push:
+    workflow_dispatch:
+    schedule:
+        - cron: "0 0 * * 6"
+
+permissions:
+    contents: write
+
+jobs:
+    render:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+              with:
+                  fetch-depth: 0
+
+            - name: Substitute template variables
+              env:
+                  METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
+              run: |
+                  ./render.sh < template.md > readme.md
+
+                  [ ! "$(git status --porcelain)" ] && exit 0
+
+                  git config --global user.name "github-actions[bot]"
+                  git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                  git add readme.md
+                  git commit -m "Rerender action"
+                  git push -f
