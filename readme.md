@@ -1,8 +1,6 @@
-I use
+I have 0 stars on my projects, where I write
 
 - Shell<sup>100%</sup>
-
-on my projects; totaling 0 stars on active ones.
 
 ## Free software.
 
