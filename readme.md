@@ -1,4 +1,4 @@
-I have 1 total stars on my active projects, where I write
+I have 0 total stars on my active projects, where I write
 
 - Shell<sup>100%</sup>
 
