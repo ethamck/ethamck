@@ -1,8 +1,6 @@
-I use
+I have {{s}} stars on my projects, where I write
 
 {{l}}
-
-on my projects; totaling {{s}} stars on active ones.
 
 ## Free software.
 
