@@ -16,7 +16,6 @@ jobs:
             - name: Substitute template variables
               env:
                   METRICS_TOKEN: ${{ secrets.METRICS_TOKEN }}
-                  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
                   ./render.sh < template.md > readme.md
 
