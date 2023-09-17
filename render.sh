@@ -3,7 +3,7 @@
 # Render readme.md
 # Automatically run through .github/workflows/render.yml
 
-license_frequency="$(curl -X GET -H 'X-GitHub-Api-Version: 2022-11-28' -H "authorization: Bearer $METRICS_TOKEN" 'https://api.github.com/user/repos?visibility=public&sort=pushed' --jq '.[].license.spdx_id | select(. != null)' | uniq -c | sort -nr | awk '{
+license_frequency="$(curl -X GET -H 'X-GitHub-Api-Version: 2022-11-28' -H "authorization: Bearer $METRICS_TOKEN" 'https://api.github.com/user/repos?visibility=public&sort=pushed' | jq '.[].license.spdx_id | select(. != null)' | uniq -c | sort -nr | awk '{
 	t = 0;
 	p = 0;
 	f = 0;
