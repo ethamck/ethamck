@@ -1,7 +1,7 @@
 name: Automatic rerender
 
 on:
-    schedule: [{cron: "0 0 * * *"}]
+    schedule: [{cron: "0 0 1 * *"}]
 
 permissions:
     contents: write
