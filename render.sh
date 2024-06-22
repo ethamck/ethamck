@@ -37,8 +37,8 @@ licenses="$(query '.[].license.spdx_id' | average | awk '
 	END {print p"%\t"f"%";}
 ')"
 
-sed
-	-e "s/{{s}}/$stargazers/g"
- 	-e "s/{{l}}/$languages/g"
-  	-e "s/{{lp}}/$(echo $licenses | cut -f1)/g"
-	-e "s/{{lf}}/$(echo $licenses | cut -f2)/g"
+sed \
+	-e "s/{{s}}/$stargazers/g" \
+ 	-e "s/{{l}}/$languages/g" \
+  	-e "s/{{lp}}/$(echo $licenses | cut -f1)/g" \
+	-e "s/{{lf}}/$(echo $licenses | cut -f2)/g" \
