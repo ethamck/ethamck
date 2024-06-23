@@ -34,7 +34,7 @@ query '.[].license.spdx_id' | average | awk '
 		if (index($i, "GPL") || index($i, "GFDL") || index($i, "CC-BY-SA"))
 			f += $(i-1);
 	}
-	END {print p"\t"f;}
+	END {print p, f;}
 ' | read public free
 export public free
 
