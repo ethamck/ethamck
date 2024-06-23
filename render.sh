@@ -34,11 +34,9 @@ licenses="$(query '.[].license.spdx_id' | average | awk '
 		if (index($i, "GPL") || index($i, "GFDL") || index($i, "CC-BY-SA"))
 			f += $(i-1);
 	}
-	END {print p"%\t"f"%";}
+	END {print p"\t"f;}
 ')"
+public="$(echo $licenses | cut -f1)"
+free="$(echo $licenses | cut -f2)"
 
-sed \
-	-e "s/{{s}}/$stargazers/g" \
- 	-e "s/{{l}}/$languages/g" \
-  	-e "s/{{lp}}/$(echo $licenses | cut -f1)/g" \
-	-e "s/{{lf}}/$(echo $licenses | cut -f2)/g" \
+envsubst
