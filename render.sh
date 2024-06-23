@@ -36,8 +36,8 @@ licenses="$(query '.[].license.spdx_id' | average | awk '
 	}
 	END {print p"\t"f;}
 ')"
-public="$(echo $licenses | cut -f1)"
-free="$(echo $licenses | cut -f2)"
+public="$(printf $licenses | cut -f1)"
+free="$(printf $licenses | cut -f2)"
 
 envsubst
 set 1>&2
