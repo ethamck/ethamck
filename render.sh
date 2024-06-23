@@ -25,7 +25,7 @@ export languages="$(query '.[].language' | average | sort -nr | head -n4 | awk '
 	for (i = 2; i <= NF; i += 2)
 		print "- "$i"<sup>"$(i-1)"%</sup>"
 }')"
-licenses="$(query '.[].license.spdx_id' | average | awk '
+query '.[].license.spdx_id' | average | awk '
 	BEGIN {p = 0; f = 0;}
 	{
 		i = ARGIND + 2;
@@ -35,9 +35,8 @@ licenses="$(query '.[].license.spdx_id' | average | awk '
 			f += $(i-1);
 	}
 	END {print p"\t"f;}
-')"
-export public="$(printf $licenses | cut -d $'\t' -f1)"
-export free="$(printf $licenses | cut -d $'\t' -f2)"
+' | read public free
+export public free
 
 envsubst
 set 1>&2
