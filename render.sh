@@ -20,8 +20,8 @@ average() {
 	}'
 }
 
-stargazers="$(query '[.[].stargazers_count] | add')"
-languages="$(query '.[].language' | average | sort -nr | head -n4 | awk '{
+export stargazers="$(query '[.[].stargazers_count] | add')"
+export languages="$(query '.[].language' | average | sort -nr | head -n4 | awk '{
 	for (i = 2; i <= NF; i += 2)
 		print "- "$i"<sup>"$(i-1)"%</sup>"
 }')"
@@ -36,8 +36,8 @@ licenses="$(query '.[].license.spdx_id' | average | awk '
 	}
 	END {print p"\t"f;}
 ')"
-public="$(printf $licenses | cut -f1)"
-free="$(printf $licenses | cut -f2)"
+export public="$(printf $licenses | cut -f1)"
+export free="$(printf $licenses | cut -f2)"
 
 envsubst
 set 1>&2
