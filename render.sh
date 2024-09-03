@@ -1,6 +1,6 @@
 #!/bin/sh -
 
-JSON="$(curl -sX GET -H 'X-GitHub-Api-Version: 2022-11-28' -H "Authorization: Bearer $METRICS_TOKEN" 'https://api.github.com/user/repos?visibility=public&sort=pushed')"
+JSON="$(curl -sX GET -H 'X-GitHub-Api-Version: 2022-11-28' -H "Authorization: Bearer $METRICS_TOKEN" 'https://api.github.com/user/repos?visibility=public&affiliation=owner&sort=pushed' | jq -Mcr '[.[] | select(.fork == false)]')"
 
 # Render readme.md
 # Automatically run through .github/workflows/render.yml
@@ -9,23 +9,28 @@ query() {
 	echo "$JSON" | jq -Mcr "$@ | select(. != null)"
 }
 average() {
-	awk '{
-		for (i = 1; i <= NF; i++) {
-			f[$i]++;
+	awk '
+		{
+			for (i = 1; i <= NF; i++) {
+				f[$i]++;
+			}
 		}
-	} END {
-		for (k in f) {
-			print (int((f[k])/NR * 100))"\t"k
+		END {
+			for (k in f) {
+				print (int((f[k])/NR * 100))"\t"k
+			}
 		}
-	}'
+	'
 }
 
 export stargazers="$(query '[.[].stargazers_count] | add')"
 
-export languages="$(query '.[].language' | average | sort -nr | head -n4 | awk '{
-	for (i = 2; i <= NF; i += 2)
-		print "- "$i"<sup>"$(i-1)"%</sup>"
-}')"
+export languages="$(query '.[].language' | average | sort -nr | head -n5 | awk '
+	{
+		for (i = 2; i <= NF; i += 2)
+			print "- "$i"<sup>"$(i-1)"%</sup>"
+	}
+')"
 
 set -- $(query '.[].license.spdx_id' | average | awk '
 	BEGIN {p = 0; f = 0;}
